@@ -1,0 +1,3001 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#FAF8F3" />
+<title>Finn.Lab — Finnish Language Learning Model</title>
+<meta name="description" content="Finn.Lab: a trilingual (FI · EN · BN) Finnish learning system from Level 0 to YKI / C2." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..800,0..100&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Bengali:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================
+   FINN.LAB — Design System
+   Aesthetic: Editorial Nordic. Warm paper, ink type, confident
+   Nordic blue, terracotta accents. Subtle gamification.
+   ============================================================ */
+
+:root {
+  /* Surfaces */
+  --bg:           #FAF8F3;
+  --surface:      #FFFFFF;
+  --surface-2:    #F2EFE7;
+  --surface-3:    #ECE8DE;
+
+  /* Ink (text) */
+  --ink:          #1B2030;
+  --ink-2:        #4A4F60;
+  --ink-3:        #6E7280;
+  --muted:        #9A9DA7;
+
+  /* Borders */
+  --border:       #E5E0D5;
+  --border-2:     #D6D0C2;
+  --border-strong:#1B2030;
+
+  /* Brand */
+  --accent:       #2D5BD7;
+  --accent-soft:  #E6EBFA;
+  --accent-deep:  #1E3FA0;
+
+  /* Warm accent */
+  --ember:        #C8542A;
+  --ember-soft:   #F8E8DE;
+  --ember-deep:   #8E3818;
+
+  /* Status */
+  --success:      #1F7A4D;
+  --success-soft: #E0EFE7;
+  --warning:      #B86A1A;
+  --warning-soft: #FAEEDA;
+  --danger:       #B23A3A;
+  --danger-soft:  #F6E3E1;
+
+  /* Level chips (subtle, monochromatic blue family + neutrals) */
+  --l0-bg:  #ECE8DE;  --l0-ink:  #4A4F60;
+  --a1-bg:  #E6EBFA;  --a1-ink:  #1E3FA0;
+  --a2-bg:  #DDE4F6;  --a2-ink:  #1E3FA0;
+  --b1-bg:  #E5E7C9;  --b1-ink:  #5B6512;
+  --b2-bg:  #F2E5C0;  --b2-ink:  #6E5510;
+  --c1-bg:  --ember-soft; --c1-ink: --ember-deep;
+  --c2-bg:  #F0DCD0;  --c2-ink:  --ember-deep;
+
+  /* Typography */
+  --font-serif: "Fraunces", "Iowan Old Style", "Apple Garamond", Georgia, serif;
+  --font-sans:  "IBM Plex Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:  "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --font-bn:    "Noto Sans Bengali", "IBM Plex Sans", sans-serif;
+
+  /* Radius */
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-xl: 20px;
+
+  /* Shadow */
+  --shadow-sm: 0 1px 2px rgba(27,32,48,0.04), 0 1px 1px rgba(27,32,48,0.03);
+  --shadow-md: 0 2px 6px rgba(27,32,48,0.06), 0 4px 12px rgba(27,32,48,0.04);
+  --shadow-lg: 0 8px 24px rgba(27,32,48,0.08), 0 16px 48px rgba(27,32,48,0.06);
+
+  /* Layout */
+  --nav-w: 240px;
+  --header-h: 64px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+html {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at top left, rgba(45,91,215,0.04), transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(200,84,42,0.03), transparent 50%),
+    var(--bg);
+  min-height: 100vh;
+}
+
+::selection { background: var(--accent); color: white; }
+
+/* Headings */
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0;
+}
+h1 { font-size: 2.25rem; font-variation-settings: "opsz" 100, "SOFT" 30; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.15rem; font-weight: 600; }
+h4 { font-size: 1rem; font-weight: 600; font-family: var(--font-sans); letter-spacing: 0; }
+
+p { margin: 0 0 0.75em; color: var(--ink-2); }
+p:last-child { margin-bottom: 0; }
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-deep); text-decoration: underline; }
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+input, textarea, select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 10px 12px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+textarea { resize: vertical; min-height: 80px; font-family: var(--font-sans); }
+label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ====== Layout ====== */
+.app {
+  display: grid;
+  grid-template-columns: var(--nav-w) 1fr;
+  grid-template-rows: var(--header-h) 1fr;
+  grid-template-areas:
+    "header header"
+    "nav    main";
+  min-height: 100vh;
+}
+
+.app-header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(8px);
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  font-variation-settings: "opsz" 100, "SOFT" 50;
+}
+.brand .dot {
+  color: var(--accent);
+  font-weight: 800;
+  margin: 0 1px;
+}
+.brand .tag {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-left: 10px;
+  padding: 3px 7px;
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-sm);
+  align-self: center;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.streak-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--ember-soft);
+  color: var(--ember-deep);
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  font-feature-settings: "tnum";
+}
+
+/* Level selector */
+.level-bar {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--surface-2);
+  border-radius: 999px;
+}
+.level-chip {
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+  transition: all 0.15s;
+  font-family: var(--font-mono);
+}
+.level-chip:hover { color: var(--ink); }
+.level-chip.active {
+  background: var(--ink);
+  color: var(--bg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Navigation sidebar */
+.app-nav {
+  grid-area: nav;
+  padding: 24px 16px;
+  border-right: 1px solid var(--border);
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.nav-section-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  margin-top: 16px;
+}
+.nav-section-title:first-child { margin-top: 0; }
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px;
+  border-radius: var(--r-md);
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--ink-2);
+  transition: all 0.12s;
+  width: 100%;
+  text-align: left;
+}
+.nav-item:hover { background: var(--surface-2); color: var(--ink); }
+.nav-item.active {
+  background: var(--ink);
+  color: var(--bg);
+}
+.nav-item.active .nav-icon { opacity: 1; }
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+.nav-badge {
+  margin-left: auto;
+  background: var(--ember);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 999px;
+  min-width: 18px;
+  text-align: center;
+}
+.nav-item.active .nav-badge { background: var(--bg); color: var(--ink); }
+
+/* Main content */
+.app-main {
+  grid-area: main;
+  padding: 32px 40px 80px;
+  overflow-y: auto;
+  max-width: 100%;
+}
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  animation: fadeUp 0.35s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.page-header {
+  margin-bottom: 28px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.page-header h1 { margin-bottom: 4px; }
+.page-header .lead { color: var(--ink-3); font-size: 0.95rem; }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: var(--r-md);
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.15s;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+.btn-primary {
+  background: var(--ink);
+  color: var(--bg);
+}
+.btn-primary:hover { background: #2A3145; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-secondary {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--border);
+}
+.btn-secondary:hover { background: var(--surface-2); border-color: var(--border-2); }
+.btn-accent {
+  background: var(--accent);
+  color: white;
+}
+.btn-accent:hover { background: var(--accent-deep); }
+.btn-ghost {
+  color: var(--ink-2);
+}
+.btn-ghost:hover { background: var(--surface-2); color: var(--ink); }
+.btn-danger {
+  background: var(--danger-soft);
+  color: var(--danger);
+  border-color: transparent;
+}
+.btn-danger:hover { background: var(--danger); color: white; }
+.btn-sm { padding: 5px 10px; font-size: 0.82rem; }
+.btn-lg { padding: 14px 24px; font-size: 1rem; }
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 24px;
+}
+.card-flat {
+  background: var(--surface-2);
+  border: none;
+  border-radius: var(--r-lg);
+  padding: 20px;
+}
+
+/* Grid layouts */
+.grid { display: grid; gap: 16px; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 900px) {
+  .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+}
+
+/* Stat cards */
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card .label {
+  font-size: 0.78rem;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.stat-card .value {
+  font-family: var(--font-serif);
+  font-size: 2.4rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--ink);
+  font-variation-settings: "opsz" 100;
+  font-feature-settings: "tnum";
+}
+.stat-card .sub {
+  margin-top: 8px;
+  font-size: 0.82rem;
+  color: var(--ink-3);
+}
+.stat-card.accent-blue { background: var(--accent-soft); border-color: transparent; }
+.stat-card.accent-blue .value { color: var(--accent-deep); }
+.stat-card.accent-ember { background: var(--ember-soft); border-color: transparent; }
+.stat-card.accent-ember .value { color: var(--ember-deep); }
+
+/* Progress ring */
+.ring {
+  --size: 64px;
+  --stroke: 6px;
+  --pct: 0;
+  width: var(--size);
+  height: var(--size);
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+}
+.ring svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+.ring .ring-text {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* Progress bar */
+.bar {
+  height: 8px;
+  background: var(--surface-2);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.bar > .fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+/* Tables */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+.table th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.table td {
+  padding: 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.table tr:hover td { background: var(--surface-2); }
+.table .fi { font-family: var(--font-serif); font-weight: 500; color: var(--ink); font-size: 1.05em; }
+.table .en { color: var(--ink-2); }
+.table .bn { font-family: var(--font-bn); color: var(--ink-2); }
+
+/* Tags / chips */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+}
+.chip.level-0  { background: var(--l0-bg); color: var(--l0-ink); }
+.chip.level-A1 { background: var(--a1-bg); color: var(--a1-ink); }
+.chip.level-A2 { background: var(--a2-bg); color: var(--a2-ink); }
+.chip.level-B1 { background: var(--b1-bg); color: var(--b1-ink); }
+.chip.level-B2 { background: var(--b2-bg); color: var(--b2-ink); }
+.chip.level-C1 { background: var(--ember-soft); color: var(--ember-deep); }
+.chip.level-C2 { background: #F0DCD0; color: var(--ember-deep); }
+
+.chip.status-new      { background: var(--surface-2); color: var(--ink-3); }
+.chip.status-learning { background: var(--warning-soft); color: var(--warning); }
+.chip.status-known    { background: var(--success-soft); color: var(--success); }
+.chip.status-due      { background: var(--accent-soft); color: var(--accent-deep); }
+
+/* ====== Flashcard ====== */
+.fc-stage {
+  display: grid;
+  place-items: center;
+  min-height: 420px;
+  perspective: 1200px;
+  padding: 20px 0 30px;
+}
+.fc {
+  width: min(560px, 100%);
+  height: 340px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.4, 0.05, 0.2, 1);
+  cursor: pointer;
+}
+.fc.flipped { transform: rotateY(180deg); }
+.fc-face {
+  position: absolute;
+  inset: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  backface-visibility: hidden;
+  box-shadow: var(--shadow-md);
+}
+.fc-back { transform: rotateY(180deg); }
+.fc-front .word {
+  font-family: var(--font-serif);
+  font-size: 3.2rem;
+  font-weight: 400;
+  font-variation-settings: "opsz" 100, "SOFT" 50;
+  text-align: center;
+  color: var(--ink);
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+.fc-front .pron {
+  text-align: center;
+  font-family: var(--font-mono);
+  color: var(--ink-3);
+  font-size: 0.95rem;
+}
+.fc-front .tap {
+  position: absolute;
+  bottom: 18px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.fc-back .lang-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+.fc-back .lang-col .lbl {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.fc-back .lang-col .val {
+  font-size: 1.15rem;
+  color: var(--ink);
+  font-weight: 500;
+}
+.fc-back .lang-col.fi .val { font-family: var(--font-serif); font-size: 1.4rem; }
+.fc-back .lang-col.bn .val { font-family: var(--font-bn); }
+.fc-back .example {
+  border-top: 1px dashed var(--border);
+  padding-top: 14px;
+  margin-top: auto;
+  font-size: 0.88rem;
+  color: var(--ink-3);
+}
+.fc-back .example .ex-fi { font-family: var(--font-serif); color: var(--ink-2); font-style: italic; margin-bottom: 4px; }
+.fc-back .example .ex-bn { font-family: var(--font-bn); margin-top: 4px; }
+
+@media (max-width: 600px) {
+  .fc-back .lang-grid { grid-template-columns: 1fr; gap: 10px; }
+  .fc-front .word { font-size: 2.4rem; }
+}
+
+.fc-controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 24px;
+}
+.fc-btn {
+  flex: 1;
+  max-width: 200px;
+  padding: 14px;
+  border-radius: var(--r-md);
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid;
+}
+.fc-btn.missed {
+  background: var(--surface);
+  color: var(--danger);
+  border-color: var(--danger-soft);
+}
+.fc-btn.missed:hover { background: var(--danger-soft); }
+.fc-btn.got {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+.fc-btn.got:hover { background: #2A3145; }
+
+.fc-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 560px;
+  width: 100%;
+  margin: 0 auto 16px;
+  font-size: 0.85rem;
+  color: var(--ink-3);
+}
+
+/* ====== Grammar rule cards ====== */
+.rule {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 28px;
+  margin-bottom: 16px;
+}
+.rule-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.rule-title { font-family: var(--font-serif); font-size: 1.35rem; font-weight: 500; color: var(--ink); }
+.rule-meta { display: flex; gap: 8px; align-items: center; }
+.rule-section {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+.rule-section .label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.example-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1.5fr 1.5fr;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.example-row:last-child { border-bottom: none; }
+.example-row .fi { font-family: var(--font-serif); color: var(--ink); font-weight: 500; }
+.example-row .bn { font-family: var(--font-bn); color: var(--ink-2); }
+.example-row .en { color: var(--ink-2); font-style: italic; }
+@media (max-width: 700px) {
+  .example-row { grid-template-columns: 1fr; gap: 4px; padding: 12px 0; }
+}
+
+.callout {
+  padding: 14px 16px;
+  border-radius: var(--r-md);
+  border-left: 3px solid;
+  font-size: 0.92rem;
+}
+.callout.tip      { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-deep); }
+.callout.mistake  { background: var(--warning-soft); border-color: var(--warning); color: var(--warning); }
+.callout.analogy  { background: var(--ember-soft); border-color: var(--ember); color: var(--ember-deep); }
+.callout .label {
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  opacity: 0.85;
+}
+
+/* ====== Modal ====== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(27,32,48,0.4);
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.modal {
+  background: var(--surface);
+  border-radius: var(--r-xl);
+  width: 100%;
+  max-width: 640px;
+  max-height: 88vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  animation: modalUp 0.25s cubic-bezier(0.2,0.8,0.3,1);
+}
+@keyframes modalUp { from { opacity: 0; transform: translateY(20px) scale(0.97); } to { opacity: 1; transform: none; } }
+.modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.modal-head h3 { font-family: var(--font-serif); font-size: 1.25rem; }
+.modal-body { padding: 24px; }
+.modal-foot {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  background: var(--surface-2);
+  border-bottom-left-radius: var(--r-xl);
+  border-bottom-right-radius: var(--r-xl);
+}
+.modal-close {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-sm);
+  color: var(--ink-3);
+}
+.modal-close:hover { background: var(--surface-2); color: var(--ink); }
+
+.form-row { margin-bottom: 16px; }
+.form-row-grid { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+@media (max-width: 600px) { .form-row-grid { grid-template-columns: 1fr; } }
+
+/* Empty state */
+.empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--ink-3);
+}
+.empty .em-icon {
+  font-size: 2.4rem;
+  margin-bottom: 16px;
+  opacity: 0.5;
+  font-family: var(--font-serif);
+}
+.empty h3 { color: var(--ink); margin-bottom: 8px; font-family: var(--font-serif); }
+.empty p { max-width: 380px; margin: 0 auto 20px; }
+
+/* Filter bar */
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filter-bar input,
+.filter-bar select {
+  width: auto;
+  min-width: 160px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+.search-input { flex: 1; max-width: 320px; }
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+.tab {
+  padding: 10px 16px;
+  font-weight: 500;
+  color: var(--ink-3);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+.tab:hover { color: var(--ink); }
+.tab.active { color: var(--ink); border-color: var(--ink); }
+
+/* Toast */
+.toast-stack {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 200;
+}
+.toast {
+  padding: 12px 18px;
+  background: var(--ink);
+  color: var(--bg);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-lg);
+  font-size: 0.9rem;
+  font-weight: 500;
+  animation: toastIn 0.25s ease;
+  max-width: 320px;
+}
+.toast.success { background: var(--success); }
+.toast.error   { background: var(--danger); }
+@keyframes toastIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* "Ask" floating button (text selection) */
+.ask-pop {
+  position: absolute;
+  z-index: 90;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  animation: askPop 0.15s ease;
+}
+@keyframes askPop { from { opacity: 0; transform: translate(-50%, 4px); } to { opacity: 1; transform: translateX(-50%); } }
+
+/* Loader */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Skeleton (for loading) */
+.skel {
+  background: linear-gradient(90deg, var(--surface-2) 0%, var(--surface-3) 50%, var(--surface-2) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+  border-radius: var(--r-sm);
+}
+@keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+/* Mobile nav */
+.mobile-nav { display: none; }
+@media (max-width: 880px) {
+  .app {
+    grid-template-columns: 1fr;
+    grid-template-rows: var(--header-h) 1fr auto;
+    grid-template-areas:
+      "header"
+      "main"
+      "mobile-nav";
+  }
+  .app-nav { display: none; }
+  .app-main { padding: 24px 16px 100px; }
+  .mobile-nav {
+    display: flex;
+    grid-area: mobile-nav;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 8px 4px max(8px, env(safe-area-inset-bottom));
+    justify-content: space-around;
+    z-index: 50;
+    backdrop-filter: blur(10px);
+  }
+  .mobile-nav .nav-item {
+    flex-direction: column;
+    gap: 2px;
+    padding: 6px 4px;
+    font-size: 0.65rem;
+    text-align: center;
+    border-radius: var(--r-md);
+    flex: 1;
+    max-width: 80px;
+  }
+  .mobile-nav .nav-item.active {
+    background: transparent;
+    color: var(--ink);
+  }
+  .mobile-nav .nav-item.active .nav-icon { color: var(--accent); opacity: 1; }
+  .mobile-nav .nav-icon { width: 22px; height: 22px; }
+  .mobile-nav .nav-badge { display: none; }
+  .app-header { padding: 0 16px; }
+  .brand .tag { display: none; }
+  .level-bar { display: none; }
+  .page-header { flex-direction: column; align-items: flex-start; }
+}
+
+/* Date display */
+.date-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 8px;
+}
+.date-en { font-family: var(--font-sans); color: var(--ink-2); font-size: 0.95rem; font-weight: 500; }
+.date-fi { font-family: var(--font-serif); color: var(--ink); font-size: 1.05rem; font-style: italic; }
+
+/* Greeting */
+.greeting {
+  font-family: var(--font-serif);
+  font-size: 2.6rem;
+  font-weight: 400;
+  font-variation-settings: "opsz" 100, "SOFT" 40;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+.greeting .fi { color: var(--accent); }
+
+/* Action card (clickable big card) */
+.action-card {
+  background: var(--ink);
+  color: var(--bg);
+  border-radius: var(--r-lg);
+  padding: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+}
+.action-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+.action-card h3 { color: var(--bg); font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 4px; font-weight: 500; }
+.action-card p  { color: rgba(250,248,243,0.7); margin: 0; }
+.action-card .arrow { font-size: 1.8rem; opacity: 0.6; }
+
+/* Coming soon banner */
+.coming-soon {
+  background: var(--surface);
+  border: 2px dashed var(--border-2);
+  border-radius: var(--r-lg);
+  padding: 40px;
+  text-align: center;
+}
+.coming-soon h3 { font-family: var(--font-serif); font-size: 1.6rem; margin-bottom: 8px; }
+.coming-soon .planned {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+  text-align: left;
+}
+.coming-soon .planned-item {
+  background: var(--surface-2);
+  padding: 14px 16px;
+  border-radius: var(--r-md);
+}
+.coming-soon .planned-item h4 { font-size: 0.92rem; margin-bottom: 4px; }
+.coming-soon .planned-item p { font-size: 0.85rem; color: var(--ink-3); margin: 0; }
+
+/* Code/key display */
+.code-box {
+  font-family: var(--font-mono);
+  background: var(--surface-2);
+  padding: 12px 14px;
+  border-radius: var(--r-md);
+  font-size: 0.85rem;
+  word-break: break-all;
+  border: 1px solid var(--border);
+}
+
+/* Settings groups */
+.settings-group {
+  margin-bottom: 32px;
+}
+.settings-group h2 {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  gap: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.setting-item:last-child { border-bottom: none; }
+.setting-item .meta { flex: 1; }
+.setting-item .meta h4 { margin-bottom: 2px; }
+.setting-item .meta p { font-size: 0.85rem; color: var(--ink-3); margin: 0; }
+
+/* Quote / Finnish phrase */
+.fi-quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--accent-deep);
+  padding-left: 14px;
+  border-left: 2px solid var(--accent);
+}
+
+.hidden { display: none !important; }
+.muted { color: var(--ink-3); }
+.small { font-size: 0.85rem; }
+.mono  { font-family: var(--font-mono); }
+.right { text-align: right; }
+.center { text-align: center; }
+.spacer-sm { height: 12px; }
+.spacer    { height: 24px; }
+.spacer-lg { height: 40px; }
+.row { display: flex; gap: 12px; align-items: center; }
+.row.between { justify-content: space-between; }
+.row.wrap { flex-wrap: wrap; }
+.gap-sm { gap: 6px; }
+.gap-lg { gap: 20px; }
+
+</style>
+</head>
+<body>
+
+<div id="app" class="app">
+  <header class="app-header">
+    <div class="row gap-lg">
+      <div class="brand">
+        Finn<span class="dot">.</span>Lab
+        <span class="tag">FI · EN · BN</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <div id="level-bar" class="level-bar" role="tablist" aria-label="Proficiency level"></div>
+      <div id="streak-pill" class="streak-pill" title="Daily streak">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2s4 5 4 9a4 4 0 1 1-8 0c0-2 1-3 1-3s-1 4 2 4 3-3 3-4-2-6-2-6z"/></svg>
+        <span id="streak-count">0</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="app-nav" id="desktop-nav"></nav>
+
+  <main class="app-main">
+    <div id="view-root"></div>
+  </main>
+
+  <nav class="mobile-nav" id="mobile-nav"></nav>
+</div>
+
+<div id="modal-root"></div>
+<div id="toast-root" class="toast-stack"></div>
+<div id="ask-pop-root"></div>
+
+<script type="module">
+/* ============================================================
+   FINN.LAB — Application
+   ============================================================ */
+
+/* ---------- Constants ---------- */
+const LEVELS = ['0', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const LEVEL_ORDER = Object.fromEntries(LEVELS.map((l, i) => [l, i]));
+const FI_WEEKDAYS = ['sunnuntai','maanantai','tiistai','keskiviikko','torstai','perjantai','lauantai'];
+const FI_MONTHS = ['tammikuu','helmikuu','maaliskuu','huhtikuu','toukokuu','kesäkuu','heinäkuu','elokuu','syyskuu','lokakuu','marraskuu','joulukuu'];
+const EN_WEEKDAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const EN_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+const NAV = [
+  { section: 'Learn', items: [
+    { id: 'dashboard',  label: 'Dashboard',   icon: 'home' },
+    { id: 'vocabulary', label: 'Vocabulary',  icon: 'cards' },
+    { id: 'grammar',    label: 'Grammar',     icon: 'book' },
+    { id: 'reading',    label: 'Reading',     icon: 'reading' },
+    { id: 'writing',    label: 'Writing',     icon: 'pen' },
+  ]},
+  { section: 'Library', items: [
+    { id: 'vault',      label: 'Vault',       icon: 'archive' },
+    { id: 'resources',  label: 'Resources',   icon: 'link' },
+  ]},
+  { section: 'System', items: [
+    { id: 'settings',   label: 'Settings',    icon: 'gear' },
+  ]},
+];
+
+const ICONS = {
+  home:    '<path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H10v7H5a1 1 0 0 1-1-1V11"/>',
+  cards:   '<rect x="3" y="6" width="14" height="14" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/>',
+  book:    '<path d="M4 4a2 2 0 0 1 2-2h12v18H6a2 2 0 0 0-2 2V4z"/><path d="M4 22a2 2 0 0 1 2-2h12"/>',
+  reading: '<path d="M2 4h7a3 3 0 0 1 3 3v14a2 2 0 0 0-2-2H2z"/><path d="M22 4h-7a3 3 0 0 0-3 3v14a2 2 0 0 1 2-2h8z"/>',
+  pen:     '<path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>',
+  archive: '<rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/>',
+  link:    '<path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-2 2"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l2-2"/>',
+  gear:    '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+};
+
+const icon = (name, size = 18) =>
+  `<svg class="nav-icon" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ICONS[name] || ''}</svg>`;
+
+/* ---------- IndexedDB ---------- */
+const DB_NAME = 'finnlab';
+const DB_VERSION = 1;
+const STORES = ['vocabulary', 'grammar', 'sources', 'sessions', 'settings'];
+
+let dbPromise = null;
+function openDB() {
+  if (dbPromise) return dbPromise;
+  dbPromise = new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, DB_VERSION);
+    req.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      STORES.forEach(name => {
+        if (!db.objectStoreNames.contains(name)) {
+          const opts = (name === 'settings') ? { keyPath: 'key' } : { keyPath: 'id' };
+          db.createObjectStore(name, opts);
+        }
+      });
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+  return dbPromise;
+}
+
+async function tx(store, mode = 'readonly') {
+  const db = await openDB();
+  return db.transaction(store, mode).objectStore(store);
+}
+
+const db = {
+  async getAll(store) {
+    return new Promise(async (res, rej) => {
+      const s = await tx(store);
+      const r = s.getAll();
+      r.onsuccess = () => res(r.result || []);
+      r.onerror = () => rej(r.error);
+    });
+  },
+  async get(store, key) {
+    return new Promise(async (res, rej) => {
+      const s = await tx(store);
+      const r = s.get(key);
+      r.onsuccess = () => res(r.result);
+      r.onerror = () => rej(r.error);
+    });
+  },
+  async put(store, obj) {
+    return new Promise(async (res, rej) => {
+      const s = await tx(store, 'readwrite');
+      const r = s.put(obj);
+      r.onsuccess = () => res(obj);
+      r.onerror = () => rej(r.error);
+    });
+  },
+  async delete(store, key) {
+    return new Promise(async (res, rej) => {
+      const s = await tx(store, 'readwrite');
+      const r = s.delete(key);
+      r.onsuccess = () => res();
+      r.onerror = () => rej(r.error);
+    });
+  },
+  async clear(store) {
+    return new Promise(async (res, rej) => {
+      const s = await tx(store, 'readwrite');
+      const r = s.clear();
+      r.onsuccess = () => res();
+      r.onerror = () => rej(r.error);
+    });
+  },
+};
+
+/* settings is a key-value store: { key, value } */
+async function getSetting(key, fallback = null) {
+  const row = await db.get('settings', key);
+  return row ? row.value : fallback;
+}
+async function setSetting(key, value) {
+  return db.put('settings', { key, value });
+}
+
+/* ---------- App State ---------- */
+const state = {
+  route: 'dashboard',
+  level: 'A2',
+  streak: 0,
+  studyDates: [],
+  totalReviews: 0,
+  apiKey: '',
+  apiProvider: 'anthropic',
+  vocabulary: [],
+  grammar: [],
+  sources: [],
+};
+
+/* ---------- Utilities ---------- */
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+function uid(prefix = 'x') { return prefix + '_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4); }
+function now() { return Date.now(); }
+function today() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function fmtDateEN(d) {
+  return `${EN_WEEKDAYS[d.getDay()]}, ${d.getDate()} ${EN_MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+}
+function fmtDateFI(d) {
+  return `${FI_WEEKDAYS[d.getDay()]}, ${d.getDate()}. ${FI_MONTHS[d.getMonth()]}ta ${d.getFullYear()}`;
+}
+
+function toast(msg, type = '') {
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  $('#toast-root').appendChild(t);
+  setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 250); }, 2400);
+}
+
+function levelChipHtml(level) {
+  return `<span class="chip level-${level}">${level}</span>`;
+}
+
+/* ---------- Modal system ---------- */
+let modalOpen = false;
+function openModal({ title, body, footer, onClose }) {
+  const root = $('#modal-root');
+  root.innerHTML = `
+    <div class="modal-backdrop" data-close>
+      <div class="modal" data-stop>
+        <div class="modal-head">
+          <h3>${escapeHtml(title)}</h3>
+          <button class="modal-close" data-close aria-label="Close">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+        </div>
+        <div class="modal-body">${body}</div>
+        ${footer ? `<div class="modal-foot">${footer}</div>` : ''}
+      </div>
+    </div>`;
+  modalOpen = true;
+  root.querySelector('[data-stop]').addEventListener('click', e => e.stopPropagation());
+  root.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', () => closeModal(onClose)));
+  document.addEventListener('keydown', escClose);
+}
+function closeModal(cb) {
+  $('#modal-root').innerHTML = '';
+  modalOpen = false;
+  document.removeEventListener('keydown', escClose);
+  if (cb) cb();
+}
+function escClose(e) { if (e.key === 'Escape') closeModal(); }
+
+
+/* ---------- SM-2 algorithm ----------
+   Quality scale: 0-5. We use:
+     Got it → 4 (correct, with hesitation)
+     Missed → 1 (incorrect, but familiar)
+   Standard SuperMemo-2 implementation.
+*/
+function sm2Update(card, quality) {
+  let { ef = 2.5, interval = 0, reps = 0 } = card;
+  if (quality < 3) {
+    reps = 0;
+    interval = 1;
+  } else {
+    if (reps === 0) interval = 1;
+    else if (reps === 1) interval = 6;
+    else interval = Math.round(interval * ef);
+    reps += 1;
+  }
+  ef = Math.max(1.3, ef + 0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02));
+  const nextReview = Date.now() + interval * 24 * 60 * 60 * 1000;
+  return { ef: +ef.toFixed(2), interval, reps, nextReview, lastReview: Date.now() };
+}
+
+function cardStatus(card) {
+  if (!card.reps || card.reps === 0) return 'new';
+  if (card.reps >= 3 && card.interval >= 14) return 'known';
+  if (card.nextReview && card.nextReview <= Date.now()) return 'due';
+  return 'learning';
+}
+
+function dueToday(card) {
+  if (!card.lastReview) return true;
+  return (card.nextReview || 0) <= Date.now();
+}
+
+/* ---------- Streak tracking ---------- */
+async function recordStudyDay() {
+  const t = today();
+  const dates = await getSetting('studyDates', []);
+  if (dates.includes(t)) {
+    state.streak = computeStreak(dates);
+    return;
+  }
+  dates.push(t);
+  await setSetting('studyDates', dates);
+  state.studyDates = dates;
+  state.streak = computeStreak(dates);
+  renderStreak();
+}
+function computeStreak(dates) {
+  const set = new Set(dates);
+  let count = 0;
+  const d = new Date();
+  while (true) {
+    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    if (set.has(key)) { count++; d.setDate(d.getDate() - 1); }
+    else break;
+  }
+  // Allow yesterday if today not yet studied
+  if (count === 0) {
+    d.setDate(d.getDate() - 1);
+    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    if (set.has(key)) {
+      let dd = new Date(d);
+      while (true) {
+        const k = `${dd.getFullYear()}-${String(dd.getMonth()+1).padStart(2,'0')}-${String(dd.getDate()).padStart(2,'0')}`;
+        if (set.has(k)) { count++; dd.setDate(dd.getDate() - 1); }
+        else break;
+      }
+    }
+  }
+  return count;
+}
+
+/* ---------- Router ---------- */
+async function navigate(route) {
+  state.route = route;
+  if (location.hash !== '#' + route) history.pushState(null, '', '#' + route);
+  renderNav();
+  await renderView();
+  document.documentElement.scrollTop = 0;
+  $('.app-main').scrollTop = 0;
+}
+window.addEventListener('popstate', () => {
+  const r = (location.hash || '#dashboard').slice(1);
+  state.route = r;
+  renderNav();
+  renderView();
+});
+
+/* ---------- Render: header level bar ---------- */
+function renderLevelBar() {
+  const el = $('#level-bar');
+  el.innerHTML = LEVELS.map(l =>
+    `<button class="level-chip ${l === state.level ? 'active' : ''}" data-level="${l}" role="tab">${l}</button>`
+  ).join('');
+  el.querySelectorAll('.level-chip').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      state.level = btn.dataset.level;
+      await setSetting('currentLevel', state.level);
+      renderLevelBar();
+      renderView();
+    });
+  });
+}
+
+function renderStreak() {
+  $('#streak-count').textContent = state.streak;
+}
+
+/* ---------- Render: navigation ---------- */
+function renderNav() {
+  const desktopHtml = NAV.map(group => `
+    <div class="nav-section-title">${group.section}</div>
+    ${group.items.map(it => `
+      <button class="nav-item ${state.route === it.id ? 'active' : ''}" data-route="${it.id}">
+        ${icon(it.icon)}
+        <span>${it.label}</span>
+      </button>
+    `).join('')}
+  `).join('');
+  $('#desktop-nav').innerHTML = desktopHtml;
+  $$('#desktop-nav .nav-item').forEach(b => b.addEventListener('click', () => navigate(b.dataset.route)));
+
+  const mobileItems = NAV.flatMap(g => g.items).filter(i => ['dashboard','vocabulary','grammar','vault','settings'].includes(i.id));
+  $('#mobile-nav').innerHTML = mobileItems.map(it => `
+    <button class="nav-item ${state.route === it.id ? 'active' : ''}" data-route="${it.id}">
+      ${icon(it.icon, 22)}
+      <span>${it.label}</span>
+    </button>
+  `).join('');
+  $$('#mobile-nav .nav-item').forEach(b => b.addEventListener('click', () => navigate(b.dataset.route)));
+}
+
+/* ---------- Filtering by level ---------- */
+function filterByLevel(items) {
+  if (!items) return [];
+  return items.filter(it => it.level === state.level);
+}
+
+/* ---------- Views: registry ---------- */
+async function renderView() {
+  const root = $('#view-root');
+  const fn = views[state.route] || views.dashboard;
+  root.innerHTML = '<div class="page"><div class="skel" style="height: 200px;"></div></div>';
+  const html = await fn();
+  root.innerHTML = `<div class="page">${html}</div>`;
+  if (views[state.route + '_bind']) views[state.route + '_bind']();
+}
+
+const views = {};
+
+
+/* ====================================================
+   VIEW: Dashboard
+   ==================================================== */
+views.dashboard = async () => {
+  const d = new Date();
+  const allVocab = await db.getAll('vocabulary');
+  const allGrammar = await db.getAll('grammar');
+  const myVocab = allVocab.filter(v => v.level === state.level);
+  const myGrammar = allGrammar.filter(g => g.level === state.level);
+  const known = myVocab.filter(v => cardStatus(v) === 'known').length;
+  const due = myVocab.filter(dueToday).length;
+  const total = myVocab.length;
+  const pct = total ? Math.round((known / total) * 100) : 0;
+
+  // Sample Finnish encouragement
+  const encouragements = ['Hienoa!', 'Hyvä työ!', 'Jatka samaan malliin!', 'Loistavaa!', 'Sinä osaat!'];
+  const phrase = encouragements[Math.floor(Math.random() * encouragements.length)];
+
+  return `
+    <div class="page-header">
+      <div>
+        <div class="date-block">
+          <span class="date-en">${fmtDateEN(d)}</span>
+          <span class="date-fi">${fmtDateFI(d)}</span>
+        </div>
+        <h1 class="greeting">Tervetuloa <span class="fi">takaisin</span>.</h1>
+        <p class="lead">Currently studying at level <strong>${state.level}</strong>. ${phrase}</p>
+      </div>
+    </div>
+
+    <button class="action-card" data-action="study">
+      <div>
+        <h3>${due > 0 ? `${due} cards due for review` : 'Start a study session'}</h3>
+        <p>${due > 0 ? 'Keep your streak alive — flashcards are waiting.' : 'No reviews due. Browse vocabulary or add new words.'}</p>
+      </div>
+      <span class="arrow">→</span>
+    </button>
+
+    <div class="spacer"></div>
+
+    <div class="grid grid-4">
+      <div class="stat-card accent-ember">
+        <div class="label">Streak</div>
+        <div class="value">${state.streak}</div>
+        <div class="sub">${state.streak === 1 ? 'day' : 'days'} in a row</div>
+      </div>
+      <div class="stat-card accent-blue">
+        <div class="label">Words known</div>
+        <div class="value">${known}<span style="font-size:1.1rem;color:var(--ink-3)">/${total}</span></div>
+        <div class="sub">at level ${state.level}</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Due today</div>
+        <div class="value">${due}</div>
+        <div class="sub">${due > 0 ? 'tap above to review' : 'all caught up'}</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Grammar rules</div>
+        <div class="value">${myGrammar.length}</div>
+        <div class="sub">at level ${state.level}</div>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h3 style="margin-bottom:14px;">Progress at ${state.level}</h3>
+        <div class="bar"><div class="fill" style="width:${pct}%"></div></div>
+        <div class="row between" style="margin-top:10px;font-size:0.85rem;color:var(--ink-3)">
+          <span>${pct}% complete</span>
+          <span>${known} of ${total} words</span>
+        </div>
+        <div class="spacer-sm"></div>
+        ${total === 0 ? `
+          <p class="small muted">No vocabulary at this level yet. <a href="#" data-nav="vocabulary">Add some words</a> to begin.</p>
+        ` : ''}
+      </div>
+      <div class="card">
+        <h3 style="margin-bottom:14px;">Quick tips</h3>
+        <div class="callout tip">
+          <div class="label">Tip · Vinkki</div>
+          Right-click or select any Finnish text to ask AI for an explanation — once you've added your API key in Settings.
+        </div>
+        <div class="spacer-sm"></div>
+        <div class="fi-quote">"Pieni askel joka päivä" — a small step every day.</div>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="card">
+      <div class="row between" style="margin-bottom:14px;">
+        <h3>Recent activity</h3>
+        <span class="small muted">Last 7 days</span>
+      </div>
+      ${renderActivityRow()}
+    </div>
+  `;
+};
+
+views.dashboard_bind = () => {
+  $$('[data-action="study"]').forEach(b => b.addEventListener('click', () => navigate('vocabulary')));
+  $$('[data-nav]').forEach(a => a.addEventListener('click', (e) => { e.preventDefault(); navigate(a.dataset.nav); }));
+};
+
+function renderActivityRow() {
+  const days = [];
+  const set = new Set(state.studyDates);
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    days.push({ d, active: set.has(key) });
+  }
+  return `
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;">
+      ${days.map(({d, active}) => `
+        <div style="text-align:center">
+          <div style="font-size:0.7rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">${EN_WEEKDAYS[d.getDay()].slice(0,3)}</div>
+          <div style="height:38px;border-radius:8px;background:${active ? 'var(--accent)' : 'var(--surface-2)'};display:grid;place-items:center;color:${active ? 'white' : 'var(--ink-3)'};font-weight:600;font-family:var(--font-mono);font-size:0.85rem;">${d.getDate()}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+
+/* ====================================================
+   VIEW: Vocabulary
+   Modes: list (browse) | study (flashcards)
+   ==================================================== */
+let vocabMode = 'study';
+let studyQueue = [];
+let studyIndex = 0;
+let cardFlipped = false;
+
+views.vocabulary = async () => {
+  state.vocabulary = await db.getAll('vocabulary');
+  const atLevel = filterByLevel(state.vocabulary);
+
+  return `
+    <div class="page-header">
+      <div>
+        <h1>Vocabulary <span style="font-family:var(--font-serif);font-style:italic;color:var(--ink-3)">sanasto</span></h1>
+        <p class="lead">${atLevel.length} word${atLevel.length === 1 ? '' : 's'} at level ${state.level} · trilingual flashcards with spaced repetition</p>
+      </div>
+      <div class="row gap-sm">
+        <button class="btn btn-secondary btn-sm" data-action="add-word">+ Add word</button>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab ${vocabMode === 'study' ? 'active' : ''}" data-mode="study">Study</button>
+      <button class="tab ${vocabMode === 'list' ? 'active' : ''}" data-mode="list">Browse <span class="muted small">· ${atLevel.length}</span></button>
+    </div>
+
+    <div id="vocab-content">${vocabMode === 'study' ? renderStudyMode(atLevel) : renderListMode(atLevel)}</div>
+  `;
+};
+
+views.vocabulary_bind = () => {
+  $$('[data-action="add-word"]').forEach(b => b.addEventListener('click', () => openWordEditor()));
+  $$('[data-mode]').forEach(t => t.addEventListener('click', () => {
+    vocabMode = t.dataset.mode;
+    studyIndex = 0; cardFlipped = false;
+    renderView();
+  }));
+  bindStudyMode();
+  bindListMode();
+};
+
+function renderStudyMode(words) {
+  if (words.length === 0) {
+    return `<div class="empty">
+      <div class="em-icon">∅</div>
+      <h3>No words at level ${state.level} yet</h3>
+      <p>Add your first word to start studying with flashcards. The system will learn what you know and resurface what you've missed.</p>
+      <button class="btn btn-primary" data-action="add-word">+ Add your first word</button>
+    </div>`;
+  }
+  // Build queue: due cards first, then new cards, then learning
+  if (studyQueue.length === 0 || studyIndex >= studyQueue.length) {
+    studyQueue = [...words].sort((a, b) => {
+      const aDue = dueToday(a) ? 0 : 1;
+      const bDue = dueToday(b) ? 0 : 1;
+      if (aDue !== bDue) return aDue - bDue;
+      return (a.nextReview || 0) - (b.nextReview || 0);
+    });
+    studyIndex = 0;
+    cardFlipped = false;
+  }
+  const card = studyQueue[studyIndex];
+  if (!card) {
+    return `<div class="empty">
+      <div class="em-icon">✓</div>
+      <h3>Session complete — hyvää työtä!</h3>
+      <p>You've reviewed every card in this queue. Take a break or browse your vocabulary.</p>
+      <button class="btn btn-secondary" data-mode="list">Browse list</button>
+    </div>`;
+  }
+
+  return `
+    <div class="fc-meta">
+      <span>Card ${studyIndex + 1} of ${studyQueue.length}</span>
+      <span>${levelChipHtml(card.level)} <span class="chip status-${cardStatus(card)}" style="margin-left:6px">${cardStatus(card)}</span></span>
+    </div>
+    <div class="fc-stage">
+      <div class="fc ${cardFlipped ? 'flipped' : ''}" id="flashcard">
+        <div class="fc-face fc-front">
+          <div class="word">${escapeHtml(card.fi)}</div>
+          ${card.pronunciation ? `<div class="pron">/${escapeHtml(card.pronunciation)}/</div>` : ''}
+          <div class="tap">Tap to reveal</div>
+        </div>
+        <div class="fc-face fc-back">
+          <div class="lang-grid">
+            <div class="lang-col fi">
+              <div class="lbl">Suomi · FI</div>
+              <div class="val">${escapeHtml(card.fi)}</div>
+            </div>
+            <div class="lang-col en">
+              <div class="lbl">English · EN</div>
+              <div class="val">${escapeHtml(card.en)}</div>
+            </div>
+            <div class="lang-col bn">
+              <div class="lbl">বাংলা · BN</div>
+              <div class="val">${escapeHtml(card.bn || '—')}</div>
+            </div>
+          </div>
+          ${card.example_fi ? `
+            <div class="example">
+              <div class="ex-fi">${escapeHtml(card.example_fi)}</div>
+              <div>${escapeHtml(card.example_en || '')}</div>
+              ${card.example_bn ? `<div class="ex-bn">${escapeHtml(card.example_bn)}</div>` : ''}
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    </div>
+    ${cardFlipped ? `
+      <div class="fc-controls">
+        <button class="fc-btn missed" data-rate="missed">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          Missed
+        </button>
+        <button class="fc-btn got" data-rate="got">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12l5 5L20 7"/></svg>
+          Got it
+        </button>
+      </div>
+    ` : `<div class="fc-controls"><button class="btn btn-secondary" data-action="flip">Reveal answer</button></div>`}
+    <div class="center muted small" style="margin-top:18px">
+      <button class="btn btn-ghost btn-sm" data-action="edit-card" data-id="${card.id}">Edit</button>
+      <button class="btn btn-ghost btn-sm" data-action="skip">Skip</button>
+    </div>
+  `;
+}
+
+function bindStudyMode() {
+  const fc = $('#flashcard');
+  if (fc) fc.addEventListener('click', () => { cardFlipped = !cardFlipped; renderView(); });
+  $$('[data-action="flip"]').forEach(b => b.addEventListener('click', () => { cardFlipped = true; renderView(); }));
+  $$('[data-rate]').forEach(b => b.addEventListener('click', async (e) => {
+    e.stopPropagation();
+    const rate = b.dataset.rate;
+    const card = studyQueue[studyIndex];
+    const quality = rate === 'got' ? 4 : 1;
+    const upd = sm2Update(card, quality);
+    const merged = { ...card, ...upd, updated: now() };
+    await db.put('vocabulary', merged);
+    state.totalReviews++;
+    await setSetting('totalReviews', state.totalReviews);
+    await recordStudyDay();
+    studyIndex++;
+    cardFlipped = false;
+    if (rate === 'got') toast('Got it ✓', 'success');
+    renderView();
+  }));
+  $$('[data-action="skip"]').forEach(b => b.addEventListener('click', () => {
+    studyIndex++; cardFlipped = false; renderView();
+  }));
+  $$('[data-action="edit-card"]').forEach(b => b.addEventListener('click', () => openWordEditor(b.dataset.id)));
+}
+
+
+let vocabSearchQuery = '';
+let vocabStatusFilter = 'all';
+
+function renderListMode(words) {
+  let filtered = words;
+  if (vocabSearchQuery) {
+    const q = vocabSearchQuery.toLowerCase();
+    filtered = filtered.filter(w =>
+      (w.fi || '').toLowerCase().includes(q) ||
+      (w.en || '').toLowerCase().includes(q) ||
+      (w.bn || '').includes(vocabSearchQuery) ||
+      (w.category || '').toLowerCase().includes(q)
+    );
+  }
+  if (vocabStatusFilter !== 'all') filtered = filtered.filter(w => cardStatus(w) === vocabStatusFilter);
+
+  return `
+    <div class="filter-bar">
+      <input type="text" id="vocab-search" class="search-input" placeholder="Search words…" value="${escapeHtml(vocabSearchQuery)}" />
+      <select id="vocab-status">
+        <option value="all">All statuses</option>
+        <option value="new" ${vocabStatusFilter==='new'?'selected':''}>New</option>
+        <option value="learning" ${vocabStatusFilter==='learning'?'selected':''}>Learning</option>
+        <option value="due" ${vocabStatusFilter==='due'?'selected':''}>Due</option>
+        <option value="known" ${vocabStatusFilter==='known'?'selected':''}>Known</option>
+      </select>
+      <div style="margin-left:auto" class="small muted">${filtered.length} of ${words.length}</div>
+    </div>
+    ${filtered.length === 0 ? `
+      <div class="empty">
+        <div class="em-icon">⌕</div>
+        <h3>No matches</h3>
+        <p>Try a different search or filter, or add a new word at this level.</p>
+      </div>
+    ` : `
+      <div class="card" style="padding:0;overflow:hidden">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Suomi</th>
+              <th>English</th>
+              <th>বাংলা</th>
+              <th>Category</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            ${filtered.map(w => `
+              <tr>
+                <td><span class="fi">${escapeHtml(w.fi)}</span>${w.pronunciation ? `<br><span class="small muted mono">/${escapeHtml(w.pronunciation)}/</span>` : ''}</td>
+                <td><span class="en">${escapeHtml(w.en)}</span></td>
+                <td><span class="bn">${escapeHtml(w.bn || '—')}</span></td>
+                <td><span class="small muted">${escapeHtml(w.category || '—')}</span></td>
+                <td><span class="chip status-${cardStatus(w)}">${cardStatus(w)}</span></td>
+                <td class="right">
+                  <button class="btn btn-ghost btn-sm" data-action="edit-card" data-id="${w.id}">Edit</button>
+                  <button class="btn btn-ghost btn-sm" data-action="delete-card" data-id="${w.id}">Delete</button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `}
+  `;
+}
+
+function bindListMode() {
+  const search = $('#vocab-search');
+  if (search) search.addEventListener('input', (e) => {
+    vocabSearchQuery = e.target.value;
+    const c = $('#vocab-content');
+    if (c) c.innerHTML = renderListMode(filterByLevel(state.vocabulary));
+    bindListMode();
+    // restore focus
+    const s2 = $('#vocab-search'); if (s2) { s2.focus(); s2.setSelectionRange(s2.value.length, s2.value.length); }
+  });
+  const status = $('#vocab-status');
+  if (status) status.addEventListener('change', (e) => {
+    vocabStatusFilter = e.target.value;
+    const c = $('#vocab-content');
+    if (c) c.innerHTML = renderListMode(filterByLevel(state.vocabulary));
+    bindListMode();
+  });
+  $$('[data-action="edit-card"]').forEach(b => b.addEventListener('click', () => openWordEditor(b.dataset.id)));
+  $$('[data-action="delete-card"]').forEach(b => b.addEventListener('click', async () => {
+    if (!confirm('Delete this word? It will not be removed from the Vault.')) return;
+    await db.delete('vocabulary', b.dataset.id);
+    state.vocabulary = await db.getAll('vocabulary');
+    toast('Word deleted');
+    renderView();
+  }));
+}
+
+function openWordEditor(id) {
+  const w = id ? state.vocabulary.find(x => x.id === id) : null;
+  const editing = !!w;
+  openModal({
+    title: editing ? 'Edit word' : 'Add new word',
+    body: `
+      <div class="form-row-grid">
+        <div class="form-row">
+          <label>Suomi (Finnish)</label>
+          <input id="we-fi" value="${escapeHtml(w?.fi || '')}" placeholder="e.g. kirja" />
+        </div>
+        <div class="form-row">
+          <label>Pronunciation (optional)</label>
+          <input id="we-pron" value="${escapeHtml(w?.pronunciation || '')}" placeholder="e.g. KEER-yah" />
+        </div>
+      </div>
+      <div class="form-row-grid">
+        <div class="form-row">
+          <label>English</label>
+          <input id="we-en" value="${escapeHtml(w?.en || '')}" placeholder="e.g. book" />
+        </div>
+        <div class="form-row">
+          <label>বাংলা (Bangla)</label>
+          <input id="we-bn" value="${escapeHtml(w?.bn || '')}" placeholder="e.g. বই" />
+        </div>
+      </div>
+      <div class="form-row">
+        <label>Example sentence — Finnish</label>
+        <input id="we-ex-fi" value="${escapeHtml(w?.example_fi || '')}" placeholder="Luen kirjaa." />
+      </div>
+      <div class="form-row-grid">
+        <div class="form-row">
+          <label>Example — English</label>
+          <input id="we-ex-en" value="${escapeHtml(w?.example_en || '')}" placeholder="I am reading a book." />
+        </div>
+        <div class="form-row">
+          <label>Example — বাংলা</label>
+          <input id="we-ex-bn" value="${escapeHtml(w?.example_bn || '')}" placeholder="আমি একটি বই পড়ছি।" />
+        </div>
+      </div>
+      <div class="form-row-grid">
+        <div class="form-row">
+          <label>Category</label>
+          <input id="we-cat" value="${escapeHtml(w?.category || '')}" placeholder="e.g. objects, food, verbs" />
+        </div>
+        <div class="form-row">
+          <label>Level</label>
+          <select id="we-level">
+            ${LEVELS.map(l => `<option value="${l}" ${(w?.level || state.level) === l ? 'selected' : ''}>${l}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+    `,
+    footer: `
+      ${editing ? `<button class="btn btn-danger" id="we-delete">Delete</button>` : ''}
+      <button class="btn btn-ghost" data-close>Cancel</button>
+      <button class="btn btn-primary" id="we-save">${editing ? 'Save changes' : 'Add word'}</button>
+    `,
+  });
+
+  $('#we-save').addEventListener('click', async () => {
+    const fi = $('#we-fi').value.trim();
+    const en = $('#we-en').value.trim();
+    if (!fi || !en) { toast('Finnish and English are required', 'error'); return; }
+    const data = {
+      id: w?.id || uid('v'),
+      fi, en,
+      bn: $('#we-bn').value.trim(),
+      pronunciation: $('#we-pron').value.trim(),
+      example_fi: $('#we-ex-fi').value.trim(),
+      example_en: $('#we-ex-en').value.trim(),
+      example_bn: $('#we-ex-bn').value.trim(),
+      category: $('#we-cat').value.trim(),
+      level: $('#we-level').value,
+      ef: w?.ef || 2.5,
+      interval: w?.interval || 0,
+      reps: w?.reps || 0,
+      nextReview: w?.nextReview || null,
+      lastReview: w?.lastReview || null,
+      created: w?.created || now(),
+      updated: now(),
+    };
+    await db.put('vocabulary', data);
+    state.vocabulary = await db.getAll('vocabulary');
+    studyQueue = []; // reset queue so new word appears
+    closeModal(() => { toast(editing ? 'Word updated' : 'Word added ✓', 'success'); renderView(); });
+  });
+  if (editing) {
+    $('#we-delete').addEventListener('click', async () => {
+      if (!confirm('Delete this word?')) return;
+      await db.delete('vocabulary', w.id);
+      state.vocabulary = await db.getAll('vocabulary');
+      closeModal(() => { toast('Word deleted'); renderView(); });
+    });
+  }
+  $('#we-fi').focus();
+}
+
+
+/* ====================================================
+   VIEW: Grammar
+   ==================================================== */
+let grammarChapterFilter = 'all';
+
+views.grammar = async () => {
+  state.grammar = await db.getAll('grammar');
+  const atLevel = filterByLevel(state.grammar);
+  const chapters = Array.from(new Set(state.grammar.map(g => g.chapter || 'Uncategorized'))).sort();
+  let filtered = atLevel;
+  if (grammarChapterFilter !== 'all') filtered = atLevel.filter(g => (g.chapter || 'Uncategorized') === grammarChapterFilter);
+  filtered.sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+
+  return `
+    <div class="page-header">
+      <div>
+        <h1>Grammar <span style="font-family:var(--font-serif);font-style:italic;color:var(--ink-3)">kielioppi</span></h1>
+        <p class="lead">${atLevel.length} rule${atLevel.length === 1 ? '' : 's'} at level ${state.level} · structured for book export with chapter ordering</p>
+      </div>
+      <div class="row gap-sm">
+        <button class="btn btn-secondary btn-sm" data-action="export-grammar">Export chapters</button>
+        <button class="btn btn-primary btn-sm" data-action="add-rule">+ Add rule</button>
+      </div>
+    </div>
+
+    <div class="filter-bar">
+      <select id="grammar-chapter">
+        <option value="all">All chapters</option>
+        ${chapters.map(c => `<option value="${escapeHtml(c)}" ${grammarChapterFilter===c?'selected':''}>${escapeHtml(c)}</option>`).join('')}
+      </select>
+      <div style="margin-left:auto" class="small muted">${filtered.length} rule${filtered.length === 1 ? '' : 's'}</div>
+    </div>
+
+    ${filtered.length === 0 ? `
+      <div class="empty">
+        <div class="em-icon">¶</div>
+        <h3>No grammar rules at level ${state.level} yet</h3>
+        <p>Add your first rule with explanation, examples, and a memorable analogy. These can later be exported as book chapters.</p>
+        <button class="btn btn-primary" data-action="add-rule">+ Add your first rule</button>
+      </div>
+    ` : filtered.map(rule => renderRule(rule)).join('')}
+  `;
+};
+
+views.grammar_bind = () => {
+  $$('[data-action="add-rule"]').forEach(b => b.addEventListener('click', () => openRuleEditor()));
+  $$('[data-action="edit-rule"]').forEach(b => b.addEventListener('click', () => openRuleEditor(b.dataset.id)));
+  $$('[data-action="delete-rule"]').forEach(b => b.addEventListener('click', async () => {
+    if (!confirm('Delete this rule?')) return;
+    await db.delete('grammar', b.dataset.id);
+    state.grammar = await db.getAll('grammar');
+    toast('Rule deleted');
+    renderView();
+  }));
+  $$('[data-action="export-grammar"]').forEach(b => b.addEventListener('click', () => exportGrammarAsBook()));
+  const sel = $('#grammar-chapter');
+  if (sel) sel.addEventListener('change', e => { grammarChapterFilter = e.target.value; renderView(); });
+};
+
+function renderRule(rule) {
+  return `
+    <div class="rule">
+      <div class="rule-head">
+        <div>
+          <div class="rule-title">${escapeHtml(rule.title)}</div>
+          <div class="row gap-sm" style="margin-top:6px">
+            ${levelChipHtml(rule.level)}
+            ${rule.chapter ? `<span class="chip">Ch. ${escapeHtml(rule.chapter)}</span>` : ''}
+            ${rule.order ? `<span class="chip">#${rule.order}</span>` : ''}
+          </div>
+        </div>
+        <div class="rule-meta">
+          <button class="btn btn-ghost btn-sm" data-action="edit-rule" data-id="${rule.id}">Edit</button>
+          <button class="btn btn-ghost btn-sm" data-action="delete-rule" data-id="${rule.id}">Delete</button>
+        </div>
+      </div>
+
+      ${rule.explanation_en ? `
+        <div class="rule-section">
+          <div class="label">Explanation · English</div>
+          <p>${escapeHtml(rule.explanation_en).replace(/\n/g, '<br>')}</p>
+        </div>
+      ` : ''}
+
+      ${rule.explanation_bn ? `
+        <div class="rule-section">
+          <div class="label">ব্যাখ্যা · বাংলা</div>
+          <p style="font-family:var(--font-bn)">${escapeHtml(rule.explanation_bn).replace(/\n/g, '<br>')}</p>
+        </div>
+      ` : ''}
+
+      ${rule.examples && rule.examples.length ? `
+        <div class="rule-section">
+          <div class="label">Examples · esimerkit</div>
+          ${rule.examples.map(ex => `
+            <div class="example-row">
+              <div class="fi">${escapeHtml(ex.fi || '')}</div>
+              <div class="en">${escapeHtml(ex.en || '')}</div>
+              <div class="bn">${escapeHtml(ex.bn || '')}</div>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+
+      ${rule.tips ? `
+        <div class="rule-section">
+          <div class="callout tip">
+            <div class="label">Tip · Vinkki</div>
+            ${escapeHtml(rule.tips).replace(/\n/g, '<br>')}
+          </div>
+        </div>
+      ` : ''}
+
+      ${rule.commonMistakes ? `
+        <div class="rule-section">
+          <div class="callout mistake">
+            <div class="label">Common mistakes · Yleisiä virheitä</div>
+            ${escapeHtml(rule.commonMistakes).replace(/\n/g, '<br>')}
+          </div>
+        </div>
+      ` : ''}
+
+      ${rule.analogy ? `
+        <div class="rule-section">
+          <div class="callout analogy">
+            <div class="label">Memory trick · Muistisääntö</div>
+            ${escapeHtml(rule.analogy).replace(/\n/g, '<br>')}
+          </div>
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+function openRuleEditor(id) {
+  const r = id ? state.grammar.find(x => x.id === id) : null;
+  const editing = !!r;
+  const examples = r?.examples || [{ fi: '', en: '', bn: '' }];
+
+  openModal({
+    title: editing ? 'Edit rule' : 'Add grammar rule',
+    body: `
+      <div class="form-row-grid">
+        <div class="form-row">
+          <label>Rule title</label>
+          <input id="re-title" value="${escapeHtml(r?.title || '')}" placeholder="e.g. Partitive case" />
+        </div>
+        <div class="form-row">
+          <label>Level</label>
+          <select id="re-level">
+            ${LEVELS.map(l => `<option value="${l}" ${(r?.level || state.level) === l ? 'selected' : ''}>${l}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <div class="form-row-grid">
+        <div class="form-row">
+          <label>Chapter (for book export)</label>
+          <input id="re-chapter" value="${escapeHtml(r?.chapter || '')}" placeholder="e.g. Cases, Verbs, Pronunciation" />
+        </div>
+        <div class="form-row">
+          <label>Order within chapter</label>
+          <input id="re-order" type="number" value="${r?.order ?? ''}" placeholder="1, 2, 3..." />
+        </div>
+      </div>
+      <div class="form-row">
+        <label>Explanation — English</label>
+        <textarea id="re-exp-en" placeholder="Plain-English explanation that a beginner can follow…">${escapeHtml(r?.explanation_en || '')}</textarea>
+      </div>
+      <div class="form-row">
+        <label>Explanation — বাংলা (optional)</label>
+        <textarea id="re-exp-bn" style="font-family:var(--font-bn)" placeholder="বাংলায় ব্যাখ্যা…">${escapeHtml(r?.explanation_bn || '')}</textarea>
+      </div>
+      <div class="form-row">
+        <label>Examples (one per row — FI / EN / BN)</label>
+        <div id="re-examples">
+          ${examples.map((ex, i) => exampleRowEditor(ex, i)).join('')}
+        </div>
+        <button class="btn btn-ghost btn-sm" id="re-add-ex" style="margin-top:8px">+ Add example</button>
+      </div>
+      <div class="form-row">
+        <label>Tips · Vinkki</label>
+        <textarea id="re-tips" placeholder="Memorable tip or shortcut…">${escapeHtml(r?.tips || '')}</textarea>
+      </div>
+      <div class="form-row">
+        <label>Common mistakes</label>
+        <textarea id="re-mistakes" placeholder="What learners typically get wrong…">${escapeHtml(r?.commonMistakes || '')}</textarea>
+      </div>
+      <div class="form-row">
+        <label>Memory trick / analogy</label>
+        <textarea id="re-analogy" placeholder="A funny or vivid analogy that makes the rule stick…">${escapeHtml(r?.analogy || '')}</textarea>
+      </div>
+    `,
+    footer: `
+      ${editing ? `<button class="btn btn-danger" id="re-delete">Delete</button>` : ''}
+      <button class="btn btn-ghost" data-close>Cancel</button>
+      <button class="btn btn-primary" id="re-save">${editing ? 'Save changes' : 'Add rule'}</button>
+    `,
+  });
+
+  $('#re-add-ex').addEventListener('click', (e) => {
+    e.preventDefault();
+    const container = $('#re-examples');
+    const idx = container.children.length;
+    const div = document.createElement('div');
+    div.innerHTML = exampleRowEditor({ fi: '', en: '', bn: '' }, idx);
+    container.appendChild(div.firstElementChild);
+  });
+
+  $('#re-save').addEventListener('click', async () => {
+    const title = $('#re-title').value.trim();
+    if (!title) { toast('Rule title is required', 'error'); return; }
+    const exRows = $$('#re-examples > .ex-edit-row');
+    const exData = exRows.map(row => ({
+      fi: row.querySelector('[data-ex="fi"]').value.trim(),
+      en: row.querySelector('[data-ex="en"]').value.trim(),
+      bn: row.querySelector('[data-ex="bn"]').value.trim(),
+    })).filter(ex => ex.fi || ex.en);
+    const data = {
+      id: r?.id || uid('g'),
+      title,
+      level: $('#re-level').value,
+      chapter: $('#re-chapter').value.trim(),
+      order: parseInt($('#re-order').value) || null,
+      explanation_en: $('#re-exp-en').value.trim(),
+      explanation_bn: $('#re-exp-bn').value.trim(),
+      examples: exData,
+      tips: $('#re-tips').value.trim(),
+      commonMistakes: $('#re-mistakes').value.trim(),
+      analogy: $('#re-analogy').value.trim(),
+      created: r?.created || now(),
+      updated: now(),
+    };
+    await db.put('grammar', data);
+    state.grammar = await db.getAll('grammar');
+    closeModal(() => { toast(editing ? 'Rule updated' : 'Rule added ✓', 'success'); renderView(); });
+  });
+  if (editing) {
+    $('#re-delete').addEventListener('click', async () => {
+      if (!confirm('Delete this rule?')) return;
+      await db.delete('grammar', r.id);
+      state.grammar = await db.getAll('grammar');
+      closeModal(() => { toast('Rule deleted'); renderView(); });
+    });
+  }
+  $('#re-title').focus();
+}
+
+function exampleRowEditor(ex, i) {
+  return `<div class="ex-edit-row" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">
+    <input data-ex="fi" placeholder="Finnish" value="${escapeHtml(ex.fi || '')}" style="font-family:var(--font-serif)" />
+    <input data-ex="en" placeholder="English" value="${escapeHtml(ex.en || '')}" />
+    <input data-ex="bn" placeholder="বাংলা" value="${escapeHtml(ex.bn || '')}" style="font-family:var(--font-bn)" />
+  </div>`;
+}
+
+function exportGrammarAsBook() {
+  const rules = [...state.grammar].sort((a, b) => {
+    const c = (a.chapter || 'zz').localeCompare(b.chapter || 'zz');
+    if (c !== 0) return c;
+    return (a.order ?? 99) - (b.order ?? 99);
+  });
+  const chapters = {};
+  rules.forEach(r => {
+    const ch = r.chapter || 'Uncategorized';
+    if (!chapters[ch]) chapters[ch] = [];
+    chapters[ch].push(r);
+  });
+  let md = `# Finn.Lab — Finnish Grammar for Bengali Speakers\n\n*Auto-exported from Finn.Lab on ${fmtDateEN(new Date())}.*\n\n---\n\n`;
+  Object.keys(chapters).forEach(ch => {
+    md += `## Chapter: ${ch}\n\n`;
+    chapters[ch].forEach((r, i) => {
+      md += `### ${i+1}. ${r.title}  \n*Level: ${r.level}*\n\n`;
+      if (r.explanation_en) md += `**Explanation (English)**  \n${r.explanation_en}\n\n`;
+      if (r.explanation_bn) md += `**ব্যাখ্যা (বাংলা)**  \n${r.explanation_bn}\n\n`;
+      if (r.examples?.length) {
+        md += `**Examples:**\n\n`;
+        md += `| Finnish | English | বাংলা |\n|---|---|---|\n`;
+        r.examples.forEach(ex => { md += `| ${ex.fi || ''} | ${ex.en || ''} | ${ex.bn || ''} |\n`; });
+        md += `\n`;
+      }
+      if (r.tips) md += `> **Tip:** ${r.tips}\n\n`;
+      if (r.commonMistakes) md += `> **Common mistakes:** ${r.commonMistakes}\n\n`;
+      if (r.analogy) md += `> **Memory trick:** ${r.analogy}\n\n`;
+      md += `---\n\n`;
+    });
+  });
+  const blob = new Blob([md], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `finnlab-grammar-${today()}.md`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast(`Exported ${rules.length} rules as Markdown ✓`, 'success');
+}
+
+
+/* ====================================================
+   VIEW: Vault — all source materials
+   ==================================================== */
+views.vault = async () => {
+  state.sources = await db.getAll('sources');
+  const vocabCount = state.vocabulary.length;
+  const grammarCount = state.grammar.length;
+  const sourceCount = state.sources.length;
+
+  return `
+    <div class="page-header">
+      <div>
+        <h1>Vault <span style="font-family:var(--font-serif);font-style:italic;color:var(--ink-3)">aarrearkku</span></h1>
+        <p class="lead">Permanent knowledge base. Never cleared by progress reset. Total: ${vocabCount} words · ${grammarCount} rules · ${sourceCount} sources.</p>
+      </div>
+      <div class="row gap-sm">
+        <button class="btn btn-secondary btn-sm" data-action="add-source">+ Add source</button>
+      </div>
+    </div>
+
+    <div class="grid grid-3">
+      <div class="stat-card">
+        <div class="label">Vocabulary</div>
+        <div class="value">${vocabCount}</div>
+        <div class="sub">across all levels</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Grammar rules</div>
+        <div class="value">${grammarCount}</div>
+        <div class="sub">across all levels</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Source materials</div>
+        <div class="value">${sourceCount}</div>
+        <div class="sub">books · articles · text</div>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="card">
+      <h3 style="margin-bottom:14px;">Sources</h3>
+      ${state.sources.length === 0 ? `
+        <div class="empty" style="padding:30px 20px">
+          <div class="em-icon">⚐</div>
+          <h3>No sources added yet</h3>
+          <p>Add books, articles, URLs, or pasted text. With an API key in Settings, Finn.Lab can extract vocabulary, grammar rules, and example sentences for future practice.</p>
+          <button class="btn btn-primary" data-action="add-source">+ Add your first source</button>
+        </div>
+      ` : `
+        <table class="table">
+          <thead><tr><th>Type</th><th>Title</th><th>Level</th><th>Added</th><th></th></tr></thead>
+          <tbody>
+            ${state.sources.map(s => `
+              <tr>
+                <td><span class="chip">${s.type}</span></td>
+                <td><strong>${escapeHtml(s.title)}</strong></td>
+                <td>${levelChipHtml(s.level || state.level)}</td>
+                <td class="small muted">${new Date(s.created).toLocaleDateString()}</td>
+                <td class="right">
+                  <button class="btn btn-ghost btn-sm" data-action="extract" data-id="${s.id}">Extract</button>
+                  <button class="btn btn-ghost btn-sm" data-action="delete-source" data-id="${s.id}">Delete</button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `}
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="card-flat">
+      <div class="row gap-sm" style="margin-bottom:8px">
+        <strong>Source conflict detection</strong>
+        <span class="chip">planned</span>
+      </div>
+      <p class="small muted">When two sources contradict (e.g. one says "consonant gradation applies in partitive", another says it doesn't), Finn.Lab will flag the conflict here and let you choose which source to keep. Requires AI extraction — wire up an API key in Settings to enable.</p>
+    </div>
+  `;
+};
+
+views.vault_bind = () => {
+  $$('[data-action="add-source"]').forEach(b => b.addEventListener('click', () => openSourceEditor()));
+  $$('[data-action="delete-source"]').forEach(b => b.addEventListener('click', async () => {
+    if (!confirm('Delete this source? (Vocabulary and rules extracted from it will remain.)')) return;
+    await db.delete('sources', b.dataset.id);
+    state.sources = await db.getAll('sources');
+    toast('Source deleted');
+    renderView();
+  }));
+  $$('[data-action="extract"]').forEach(b => b.addEventListener('click', async () => {
+    const src = state.sources.find(s => s.id === b.dataset.id);
+    if (!src) return;
+    if (!state.apiKey) { toast('Set your API key in Settings first', 'error'); return; }
+    await extractFromSource(src);
+  }));
+};
+
+function openSourceEditor() {
+  openModal({
+    title: 'Add source material',
+    body: `
+      <div class="form-row">
+        <label>Type</label>
+        <select id="se-type">
+          <option value="text">Pasted text</option>
+          <option value="book">Book</option>
+          <option value="article">Article</option>
+          <option value="url">URL</option>
+        </select>
+      </div>
+      <div class="form-row-grid">
+        <div class="form-row">
+          <label>Title</label>
+          <input id="se-title" placeholder="e.g. Suomen mestari 1, Chapter 3" />
+        </div>
+        <div class="form-row">
+          <label>Level</label>
+          <select id="se-level">
+            ${LEVELS.map(l => `<option value="${l}" ${state.level === l ? 'selected' : ''}>${l}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <label>Content (paste text, URL, or notes)</label>
+        <textarea id="se-content" style="min-height:160px" placeholder="Paste Finnish text, a URL, ISBN, or your own notes about the source…"></textarea>
+      </div>
+      <p class="small muted">Stored locally. With an API key set, you can later extract vocabulary, grammar, and example sentences from this source.</p>
+    `,
+    footer: `
+      <button class="btn btn-ghost" data-close>Cancel</button>
+      <button class="btn btn-primary" id="se-save">Add source</button>
+    `,
+  });
+  $('#se-save').addEventListener('click', async () => {
+    const title = $('#se-title').value.trim();
+    if (!title) { toast('Title is required', 'error'); return; }
+    const data = {
+      id: uid('s'),
+      type: $('#se-type').value,
+      title,
+      level: $('#se-level').value,
+      content: $('#se-content').value.trim(),
+      created: now(),
+    };
+    await db.put('sources', data);
+    state.sources = await db.getAll('sources');
+    closeModal(() => { toast('Source added ✓', 'success'); renderView(); });
+  });
+  $('#se-title').focus();
+}
+
+/* ====================================================
+   VIEW: Reading (stub)
+   ==================================================== */
+views.reading = async () => `
+  <div class="page-header">
+    <div>
+      <h1>Reading <span style="font-family:var(--font-serif);font-style:italic;color:var(--ink-3)">lukeminen</span></h1>
+      <p class="lead">AI-generated reading practice from your Vault and uploaded sources.</p>
+    </div>
+  </div>
+  <div class="coming-soon">
+    <h3>Reading practice — coming soon</h3>
+    <p class="muted">This module will generate level-appropriate reading passages from materials in your Vault, with vocabulary highlighting and comprehension questions.</p>
+    <div class="planned">
+      <div class="planned-item"><h4>Generated passages</h4><p>Reading text at your selected level, sourced from your Vault or AI-generated.</p></div>
+      <div class="planned-item"><h4>Vocabulary highlighting</h4><p>Words you don't know are highlighted; click for instant translation.</p></div>
+      <div class="planned-item"><h4>Grammar notes inline</h4><p>Tricky structures are explained as you encounter them.</p></div>
+      <div class="planned-item"><h4>Comprehension questions</h4><p>MCQ and short-answer questions to test understanding.</p></div>
+    </div>
+  </div>
+`;
+
+/* ====================================================
+   VIEW: Writing (stub)
+   ==================================================== */
+views.writing = async () => `
+  <div class="page-header">
+    <div>
+      <h1>Writing <span style="font-family:var(--font-serif);font-style:italic;color:var(--ink-3)">kirjoittaminen</span></h1>
+      <p class="lead">Guided writing practice with grammar feedback.</p>
+    </div>
+  </div>
+  <div class="coming-soon">
+    <h3>Writing practice — coming soon</h3>
+    <p class="muted">Practice writing in Finnish with structured prompts and AI corrections. Tasks scale from single sentences at A1 to full YKI-style essays at B2/C1.</p>
+    <div class="planned">
+      <div class="planned-item"><h4>Sentence drills</h4><p>Build sentences using target grammar from your current level.</p></div>
+      <div class="planned-item"><h4>Short answers</h4><p>Answer prompts in 3–5 sentences with corrections.</p></div>
+      <div class="planned-item"><h4>YKI-style essays</h4><p>Practice writing tasks formatted like the actual exam.</p></div>
+      <div class="planned-item"><h4>Detailed corrections</h4><p>Not just what's wrong — why, with rule references.</p></div>
+    </div>
+  </div>
+`;
+
+/* ====================================================
+   VIEW: Resources (stub)
+   ==================================================== */
+views.resources = async () => `
+  <div class="page-header">
+    <div>
+      <h1>Resources <span style="font-family:var(--font-serif);font-style:italic;color:var(--ink-3)">resurssit</span></h1>
+      <p class="lead">Curated and personal collection of learning materials.</p>
+    </div>
+  </div>
+  <div class="coming-soon">
+    <h3>Resource library — coming soon</h3>
+    <p class="muted">Save and organize websites, books, journals, and tools that help you learn. Mark as free or paid, tag by skill, and link to specific levels.</p>
+    <div class="planned">
+      <div class="planned-item"><h4>Curated starter list</h4><p>Yle Selkouutiset, Kotus, Wiktionary, etc. pre-loaded.</p></div>
+      <div class="planned-item"><h4>Your additions</h4><p>Add any website, book, or tool you use.</p></div>
+      <div class="planned-item"><h4>Tag by skill</h4><p>Reading, listening, grammar, exam prep.</p></div>
+    </div>
+  </div>
+`;
+
+
+/* ====================================================
+   VIEW: Settings
+   ==================================================== */
+views.settings = async () => {
+  const keyMasked = state.apiKey ? state.apiKey.slice(0, 8) + '…' + state.apiKey.slice(-4) : '';
+  return `
+    <div class="page-header">
+      <div>
+        <h1>Settings <span style="font-family:var(--font-serif);font-style:italic;color:var(--ink-3)">asetukset</span></h1>
+        <p class="lead">API access, storage, and data management.</p>
+      </div>
+    </div>
+
+    <div class="settings-group">
+      <h2>AI integration</h2>
+      <div class="setting-item">
+        <div class="meta">
+          <h4>API provider</h4>
+          <p>Choose which model powers extraction, translations, and explanations.</p>
+        </div>
+        <select id="set-provider" style="max-width:200px">
+          <option value="anthropic" ${state.apiProvider==='anthropic'?'selected':''}>Anthropic (Claude)</option>
+          <option value="openai" ${state.apiProvider==='openai'?'selected':''}>OpenAI (GPT)</option>
+        </select>
+      </div>
+      <div class="setting-item">
+        <div class="meta">
+          <h4>API key</h4>
+          <p>${state.apiKey ? `Stored locally in this browser. Currently set: <span class="mono small">${keyMasked}</span>` : 'Required for AI features. Stored only in this browser — never sent anywhere except the provider you choose.'}</p>
+        </div>
+        <div class="row gap-sm">
+          <button class="btn btn-secondary btn-sm" id="set-key">${state.apiKey ? 'Update key' : 'Set key'}</button>
+          ${state.apiKey ? `<button class="btn btn-ghost btn-sm" id="clear-key">Clear</button>` : ''}
+        </div>
+      </div>
+      <div class="setting-item">
+        <div class="meta">
+          <h4>Test connection</h4>
+          <p>Verify your API key works by sending a simple test prompt.</p>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="test-api" ${!state.apiKey ? 'disabled' : ''}>Test</button>
+      </div>
+    </div>
+
+    <div class="settings-group">
+      <h2>Storage &amp; backup</h2>
+      <div class="setting-item">
+        <div class="meta">
+          <h4>Local storage (browser)</h4>
+          <p>Your data lives in IndexedDB inside this browser. Always free, always offline, but tied to this device + browser.</p>
+        </div>
+        <span class="chip status-known">Active</span>
+      </div>
+      <div class="setting-item">
+        <div class="meta">
+          <h4>Export all data</h4>
+          <p>Download a single JSON file containing your vocabulary, grammar, sources, and progress. Keep it as a backup or move it between devices.</p>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="export-all">Export JSON</button>
+      </div>
+      <div class="setting-item">
+        <div class="meta">
+          <h4>Import from JSON</h4>
+          <p>Restore from a previous export. This merges with existing data — duplicates are overwritten by ID.</p>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="import-all">Import JSON</button>
+        <input type="file" id="import-file" accept=".json" hidden />
+      </div>
+      <div class="setting-item">
+        <div class="meta">
+          <h4>Google Drive / OneDrive sync</h4>
+          <p>Cloud backup with OAuth login.</p>
+        </div>
+        <span class="chip">planned</span>
+      </div>
+    </div>
+
+    <div class="settings-group">
+      <h2>Reset</h2>
+      <div class="setting-item">
+        <div class="meta">
+          <h4>Reset progress only</h4>
+          <p>Clears review history, streak, and card learning status. <strong>Vault data (words, rules, sources) is preserved.</strong></p>
+        </div>
+        <button class="btn btn-danger btn-sm" id="reset-progress">Reset progress</button>
+      </div>
+      <div class="setting-item">
+        <div class="meta">
+          <h4>Erase everything</h4>
+          <p>Deletes all data including the Vault. This cannot be undone — export first if you might want it back.</p>
+        </div>
+        <button class="btn btn-danger btn-sm" id="erase-all">Erase all</button>
+      </div>
+    </div>
+
+    <div class="settings-group">
+      <h2>About</h2>
+      <div class="setting-item">
+        <div class="meta">
+          <h4>Finn.Lab</h4>
+          <p>Trilingual Finnish learning system (FI · EN · BN) · v0.1.0 · single-file app · no servers, no tracking, no accounts.</p>
+        </div>
+      </div>
+    </div>
+  `;
+};
+
+views.settings_bind = () => {
+  $('#set-provider').addEventListener('change', async (e) => {
+    state.apiProvider = e.target.value;
+    await setSetting('apiProvider', state.apiProvider);
+    toast('Provider updated');
+  });
+  $('#set-key').addEventListener('click', () => openKeyEditor());
+  const clearKey = $('#clear-key');
+  if (clearKey) clearKey.addEventListener('click', async () => {
+    if (!confirm('Remove API key from this browser?')) return;
+    state.apiKey = '';
+    await setSetting('apiKey', '');
+    toast('API key cleared');
+    renderView();
+  });
+  $('#test-api').addEventListener('click', async () => {
+    const btn = $('#test-api');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Testing…';
+    try {
+      const reply = await aiCall('Reply with the single Finnish word: terve');
+      if (reply) toast(`✓ Connection works (reply: "${reply.slice(0, 30)}")`, 'success');
+    } catch (err) {
+      toast('Connection failed: ' + err.message, 'error');
+    }
+    btn.disabled = false;
+    btn.textContent = 'Test';
+  });
+  $('#export-all').addEventListener('click', exportAllData);
+  $('#import-all').addEventListener('click', () => $('#import-file').click());
+  $('#import-file').addEventListener('change', importAllData);
+  $('#reset-progress').addEventListener('click', resetProgress);
+  $('#erase-all').addEventListener('click', eraseAll);
+};
+
+function openKeyEditor() {
+  openModal({
+    title: 'Set API key',
+    body: `
+      <p class="small muted" style="margin-bottom:14px">Your key is stored only in this browser's local database. It is sent directly to <strong>${state.apiProvider === 'anthropic' ? 'api.anthropic.com' : 'api.openai.com'}</strong> when you use AI features.</p>
+      <div class="form-row">
+        <label>${state.apiProvider === 'anthropic' ? 'Anthropic' : 'OpenAI'} API key</label>
+        <input id="ke-input" type="password" placeholder="${state.apiProvider === 'anthropic' ? 'sk-ant-…' : 'sk-…'}" value="${escapeHtml(state.apiKey || '')}" />
+      </div>
+      <p class="small muted">Get your key from
+        ${state.apiProvider === 'anthropic'
+          ? '<a href="https://console.anthropic.com/" target="_blank" rel="noopener">console.anthropic.com</a>'
+          : '<a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">platform.openai.com</a>'}.
+      </p>
+    `,
+    footer: `
+      <button class="btn btn-ghost" data-close>Cancel</button>
+      <button class="btn btn-primary" id="ke-save">Save</button>
+    `,
+  });
+  $('#ke-save').addEventListener('click', async () => {
+    const k = $('#ke-input').value.trim();
+    state.apiKey = k;
+    await setSetting('apiKey', k);
+    closeModal(() => { toast(k ? 'API key saved ✓' : 'Key cleared', 'success'); renderView(); });
+  });
+  $('#ke-input').focus();
+}
+
+async function exportAllData() {
+  const data = {
+    exportedAt: new Date().toISOString(),
+    version: 1,
+    vocabulary: await db.getAll('vocabulary'),
+    grammar: await db.getAll('grammar'),
+    sources: await db.getAll('sources'),
+    sessions: await db.getAll('sessions'),
+    settings: await db.getAll('settings'),
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `finnlab-backup-${today()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('Backup downloaded ✓', 'success');
+}
+
+async function importAllData(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  try {
+    const text = await file.text();
+    const data = JSON.parse(text);
+    if (!data.version) throw new Error('Not a valid Finn.Lab backup');
+    if (!confirm(`Import ${data.vocabulary?.length || 0} words, ${data.grammar?.length || 0} rules, ${data.sources?.length || 0} sources? Existing items with the same ID will be overwritten.`)) return;
+    for (const v of (data.vocabulary || [])) await db.put('vocabulary', v);
+    for (const g of (data.grammar || [])) await db.put('grammar', g);
+    for (const s of (data.sources || [])) await db.put('sources', s);
+    for (const st of (data.settings || [])) await db.put('settings', st);
+    await loadAllState();
+    toast('Import complete ✓', 'success');
+    renderView();
+  } catch (err) {
+    toast('Import failed: ' + err.message, 'error');
+  }
+  e.target.value = '';
+}
+
+async function resetProgress() {
+  if (!confirm('Reset progress?\n\nThis will clear: streak, review history, and card learning status.\nThis will NOT touch: vocabulary, grammar rules, or sources.')) return;
+  const allVocab = await db.getAll('vocabulary');
+  for (const v of allVocab) {
+    v.ef = 2.5; v.interval = 0; v.reps = 0; v.nextReview = null; v.lastReview = null;
+    await db.put('vocabulary', v);
+  }
+  await setSetting('studyDates', []);
+  await setSetting('totalReviews', 0);
+  state.streak = 0; state.studyDates = []; state.totalReviews = 0;
+  renderStreak();
+  toast('Progress reset · Vault preserved', 'success');
+  renderView();
+}
+
+async function eraseAll() {
+  if (!confirm('Erase ALL data? This deletes vocabulary, grammar, sources, and settings.\nThis CANNOT be undone.')) return;
+  if (!confirm('Are you absolutely sure?')) return;
+  for (const s of STORES) await db.clear(s);
+  toast('All data erased');
+  setTimeout(() => location.reload(), 800);
+}
+
+
+/* ====================================================
+   AI integration
+   ==================================================== */
+async function aiCall(prompt, system) {
+  if (!state.apiKey) throw new Error('No API key configured');
+  if (state.apiProvider === 'anthropic') {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': state.apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true',
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1024,
+        system: system || 'You are a helpful Finnish language tutor. Be concise and accurate.',
+        messages: [{ role: 'user', content: prompt }],
+      }),
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(`HTTP ${res.status}: ${err.slice(0, 120)}`);
+    }
+    const data = await res.json();
+    return data.content?.[0]?.text || '';
+  } else {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${state.apiKey}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: [
+          { role: 'system', content: system || 'You are a helpful Finnish language tutor. Be concise and accurate.' },
+          { role: 'user', content: prompt },
+        ],
+        max_tokens: 1024,
+      }),
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(`HTTP ${res.status}: ${err.slice(0, 120)}`);
+    }
+    const data = await res.json();
+    return data.choices?.[0]?.message?.content || '';
+  }
+}
+
+async function extractFromSource(src) {
+  toast('AI extraction is a planned feature — coming next iteration', '');
+  // Placeholder: when fully wired, this would prompt the AI to extract
+  // vocabulary, grammar, and sentences from src.content and propose them
+  // for review before saving to the Vault.
+}
+
+/* ====================================================
+   "Ask about this" — text-selection feature
+   ==================================================== */
+let askPopEl = null;
+let askLastSelection = '';
+
+document.addEventListener('mouseup', (e) => {
+  // Only on main content
+  if (!e.target.closest('.app-main') && !e.target.closest('.modal')) return;
+  setTimeout(handleSelection, 10);
+});
+document.addEventListener('selectionchange', () => {
+  const sel = window.getSelection();
+  if (!sel || sel.toString().trim().length === 0) hideAskPop();
+});
+function handleSelection() {
+  const sel = window.getSelection();
+  const txt = sel?.toString().trim();
+  if (!txt || txt.length < 2 || txt.length > 240) { hideAskPop(); return; }
+  // Only show if selection is within app-main
+  if (!sel.anchorNode || !sel.anchorNode.parentElement) return;
+  const inMain = sel.anchorNode.parentElement.closest('.app-main') || sel.anchorNode.parentElement.closest('.modal');
+  if (!inMain) { hideAskPop(); return; }
+  askLastSelection = txt;
+  const range = sel.getRangeAt(0);
+  const rect = range.getBoundingClientRect();
+  showAskPop(rect, txt);
+}
+function showAskPop(rect, text) {
+  hideAskPop();
+  const el = document.createElement('div');
+  el.className = 'ask-pop';
+  el.innerHTML = `
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 4 2c-.8.5-1.5 1-1.5 2"/><circle cx="12" cy="17" r="0.6" fill="currentColor"/></svg>
+    Ask about "${text.length > 24 ? text.slice(0, 24) + '…' : escapeHtml(text)}"
+  `;
+  el.style.top = (window.scrollY + rect.top - 44) + 'px';
+  el.style.left = (window.scrollX + rect.left + rect.width / 2) + 'px';
+  el.addEventListener('click', () => { hideAskPop(); openAskModal(text); });
+  $('#ask-pop-root').appendChild(el);
+  askPopEl = el;
+}
+function hideAskPop() {
+  if (askPopEl) { askPopEl.remove(); askPopEl = null; }
+}
+
+async function openAskModal(text) {
+  openModal({
+    title: 'Ask about: ' + (text.length > 40 ? text.slice(0, 40) + '…' : text),
+    body: `
+      <div class="callout tip" style="margin-bottom:14px">
+        <div class="label">Selection</div>
+        <div style="font-family:var(--font-serif);font-size:1.05rem;color:var(--ink)">${escapeHtml(text)}</div>
+      </div>
+      ${!state.apiKey ? `
+        <p>To explain selections with AI, add your API key in Settings.</p>
+        <button class="btn btn-accent" data-nav="settings" data-close>Open Settings</button>
+      ` : `
+        <div id="ask-result"><div class="row gap-sm muted"><span class="spinner"></span> Asking Finn.Lab AI…</div></div>
+      `}
+    `,
+    footer: state.apiKey ? `<button class="btn btn-ghost" data-close>Close</button>` : '',
+  });
+  $$('[data-nav]').forEach(a => a.addEventListener('click', () => { closeModal(); navigate(a.dataset.nav); }));
+  if (state.apiKey) {
+    try {
+      const reply = await aiCall(
+        `A Finnish learner has selected this text: "${text}"\n\nExplain it in English. Cover:\n1. Translation (English + Bangla if possible)\n2. Word-by-word breakdown if it's a phrase\n3. Grammar notes (case, conjugation, etc.)\n4. A natural usage example\n\nBe concise but thorough.`,
+        'You are a patient Finnish tutor explaining things to an English-speaking learner who also reads Bangla. Use markdown. Keep it under 250 words.'
+      );
+      const out = $('#ask-result');
+      if (out) {
+        // Light markdown rendering: **bold** and \n
+        const html = escapeHtml(reply)
+          .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+          .replace(/`([^`]+)`/g, '<code class="mono">$1</code>')
+          .replace(/\n\n/g, '</p><p>')
+          .replace(/\n/g, '<br>');
+        out.innerHTML = `<div style="line-height:1.65"><p>${html}</p></div>`;
+      }
+    } catch (err) {
+      $('#ask-result').innerHTML = `<div class="callout mistake"><div class="label">Error</div>${escapeHtml(err.message)}</div>`;
+    }
+  }
+}
+
+
+/* ====================================================
+   Seed data — a curated starter set so the app isn't empty
+   ==================================================== */
+const SEED_VOCAB = [
+  // Level 0 — survival
+  { fi: 'kyllä',  en: 'yes',         bn: 'হ্যাঁ',     pronunciation: 'KÜL-lä',     example_fi: 'Kyllä, kiitos.',          example_en: 'Yes, thank you.',         example_bn: 'হ্যাঁ, ধন্যবাদ।',         category: 'basics',   level: '0' },
+  { fi: 'ei',     en: 'no',          bn: 'না',         pronunciation: 'AY',          example_fi: 'Ei, kiitos.',             example_en: 'No, thank you.',          example_bn: 'না, ধন্যবাদ।',         category: 'basics',   level: '0' },
+  { fi: 'kiitos', en: 'thank you',   bn: 'ধন্যবাদ',     pronunciation: 'KEE-tos',     example_fi: 'Kiitos avustasi.',        example_en: 'Thanks for your help.',   example_bn: 'সাহায্যের জন্য ধন্যবাদ।',  category: 'basics',   level: '0' },
+  { fi: 'hei',    en: 'hi / bye',    bn: 'হ্যালো',      pronunciation: 'HAY',         example_fi: 'Hei! Mitä kuuluu?',       example_en: 'Hi! How are you?',        example_bn: 'হ্যালো! কেমন আছো?',       category: 'greetings',level: '0' },
+  { fi: 'anteeksi', en: 'sorry / excuse me', bn: 'মাফ করবেন', pronunciation: 'AN-tek-si', example_fi: 'Anteeksi, en ymmärrä.',  example_en: 'Sorry, I don\'t understand.', example_bn: 'মাফ করবেন, আমি বুঝি না।',  category: 'basics',   level: '0' },
+  // A1
+  { fi: 'kirja',  en: 'book',        bn: 'বই',         pronunciation: 'KEER-yah',    example_fi: 'Luen mielenkiintoista kirjaa.', example_en: 'I am reading an interesting book.', example_bn: 'আমি একটি আকর্ষণীয় বই পড়ছি।', category: 'objects', level: 'A1' },
+  { fi: 'koti',   en: 'home',        bn: 'বাড়ি',        pronunciation: 'KOH-tee',     example_fi: 'Menen kotiin.',           example_en: 'I am going home.',        example_bn: 'আমি বাড়ি যাচ্ছি।',        category: 'places',   level: 'A1' },
+  { fi: 'ruoka',  en: 'food',        bn: 'খাবার',       pronunciation: 'RUO-ka',      example_fi: 'Suomalainen ruoka on hyvää.', example_en: 'Finnish food is good.',   example_bn: 'ফিনিশ খাবার ভালো।',         category: 'food',     level: 'A1' },
+  { fi: 'vesi',   en: 'water',       bn: 'পানি',        pronunciation: 'VEH-see',     example_fi: 'Saanko lasin vettä?',     example_en: 'May I have a glass of water?', example_bn: 'আমি কি এক গ্লাস পানি পেতে পারি?', category: 'food', level: 'A1' },
+  { fi: 'ystävä', en: 'friend',      bn: 'বন্ধু',        pronunciation: 'ÜS-tä-vä',    example_fi: 'Hän on hyvä ystäväni.',   example_en: 'She is my good friend.',  example_bn: 'সে আমার ভালো বন্ধু।',       category: 'people',   level: 'A1' },
+  // A2
+  { fi: 'kokemus', en: 'experience', bn: 'অভিজ্ঞতা',    pronunciation: 'KO-keh-mus',  example_fi: 'Minulla on paljon kokemusta pankkialalta.', example_en: 'I have a lot of experience in banking.', example_bn: 'ব্যাংকিং খাতে আমার অনেক অভিজ্ঞতা আছে।', category: 'work', level: 'A2' },
+  { fi: 'pankki', en: 'bank',        bn: 'ব্যাংক',       pronunciation: 'PAHNK-kee',   example_fi: 'Työskentelen pankissa.',  example_en: 'I work at a bank.',       example_bn: 'আমি একটি ব্যাংকে কাজ করি।', category: 'work',     level: 'A2' },
+  { fi: 'opiskella', en: 'to study', bn: 'পড়াশোনা করা', pronunciation: 'OH-pis-kel-la', example_fi: 'Opiskelen suomea.',     example_en: 'I am studying Finnish.',  example_bn: 'আমি ফিনিশ পড়ছি।',         category: 'verbs',    level: 'A2' },
+  { fi: 'työ',    en: 'work / job',  bn: 'কাজ',         pronunciation: 'TÜÖ',         example_fi: 'Etsin uutta työtä.',      example_en: 'I am looking for new work.', example_bn: 'আমি নতুন কাজ খুঁজছি।',     category: 'work',     level: 'A2' },
+  { fi: 'sää',    en: 'weather',     bn: 'আবহাওয়া',    pronunciation: 'SÄÄ',          example_fi: 'Sää on tänään kaunis.',   example_en: 'The weather is beautiful today.', example_bn: 'আজ আবহাওয়া সুন্দর।',   category: 'nature',   level: 'A2' },
+  // B1
+  { fi: 'mahdollisuus', en: 'opportunity', bn: 'সুযোগ', pronunciation: 'MAH-doll-lee-soos', example_fi: 'Tämä on hieno mahdollisuus.', example_en: 'This is a wonderful opportunity.', example_bn: 'এটি একটি দারুণ সুযোগ।', category: 'abstract', level: 'B1' },
+  { fi: 'hakemus', en: 'application', bn: 'আবেদন',     pronunciation: 'HAH-keh-mus', example_fi: 'Lähetin hakemuksen eilen.', example_en: 'I sent the application yesterday.', example_bn: 'আমি গতকাল আবেদন পাঠিয়েছি।', category: 'work', level: 'B1' },
+];
+
+const SEED_GRAMMAR = [
+  {
+    title: 'Partitive case — partitiivi',
+    level: 'A1',
+    chapter: 'Cases',
+    order: 1,
+    explanation_en: 'The partitive case marks "part of" or "some of" something, and is used after numbers greater than one, after most verbs of consuming/wanting, in negative sentences, and with uncountable nouns.\n\nTypical endings: -a / -ä, -ta / -tä, -tta / -ttä, depending on the word.',
+    examples: [
+      { fi: 'Juon vettä.',          en: 'I drink water (some).', bn: 'আমি পানি (কিছু) পান করি।' },
+      { fi: 'Hän syö omenaa.',      en: 'She is eating an apple.', bn: 'সে একটি আপেল খাচ্ছে।' },
+      { fi: 'Minulla on kaksi kirjaa.', en: 'I have two books.',   bn: 'আমার দুটি বই আছে।' },
+      { fi: 'Ei ole aikaa.',        en: 'There is no time.',       bn: 'কোনো সময় নেই।' },
+    ],
+    tips: 'When in doubt with a verb of eating/drinking/wanting/looking-for: partitive.',
+    commonMistakes: 'Beginners often try consonant gradation changes — but the partitive case does NOT change these forms.\n\nExamples:\n• pankki → pankkia (NOT "pangia")\n• poika → poikaa (NOT "pojaa")',
+    analogy: 'Think of partitive as the "some" case. In English you say "I drink water" without thinking about whether it\'s all the water in the world — of course it\'s "some" water. Finnish makes that "some" explicit by changing the word.',
+  },
+  {
+    title: 'Possession: "I have" — Minulla on',
+    level: 'A1',
+    chapter: 'Sentence patterns',
+    order: 1,
+    explanation_en: 'Finnish has no verb for "to have". Instead, it uses the structure:\n\n[person in adessive case] + on + [thing]\n\nLiterally: "At me is a thing."',
+    examples: [
+      { fi: 'Minulla on koira.',  en: 'I have a dog. (lit. "At me is a dog.")', bn: 'আমার একটি কুকুর আছে।' },
+      { fi: 'Sinulla on kirja.',  en: 'You have a book.',                       bn: 'তোমার একটি বই আছে।' },
+      { fi: 'Hänellä on auto.',   en: 'She/he has a car.',                      bn: 'তার একটি গাড়ি আছে।' },
+      { fi: 'Meillä on aikaa.',   en: 'We have time.',                          bn: 'আমাদের সময় আছে।' },
+    ],
+    tips: 'Memorize the adessive forms of pronouns as a set: minulla, sinulla, hänellä, meillä, teillä, heillä.',
+    commonMistakes: 'Do not try to translate "have" directly. There is no Finnish word for it in this structure.',
+    analogy: 'Think of possession like labeling a room. Instead of "I have a chair", you say "At me is a chair." The possession lives in the location, not in a verb. And when you say "my chair", it becomes tuolini — like adding an ID tag onto the noun.',
+  },
+  {
+    title: 'Vowel harmony — vokaaliharmonia',
+    level: 'A1',
+    chapter: 'Pronunciation',
+    order: 1,
+    explanation_en: 'Finnish words use either back vowels (a, o, u) or front vowels (ä, ö, y) — but not both. The vowels e and i are neutral and can mix with either.\n\nThis affects every suffix you add: the suffix must match the vowels in the base word.',
+    examples: [
+      { fi: 'talo → talossa',     en: 'house → in the house (back vowels: a, o)',   bn: 'বাড়ি → বাড়িতে (পশ্চাৎ স্বর)' },
+      { fi: 'metsä → metsässä',   en: 'forest → in the forest (front vowels: ä)',    bn: 'বন → বনে (সামনের স্বর)' },
+      { fi: 'kirja → kirjassa',   en: 'book → in the book (neutral i + back a)',     bn: 'বই → বইয়ে' },
+    ],
+    tips: 'Look at the LAST non-neutral vowel in the stem. If it\'s back (a, o, u), the suffix uses back vowels. If it\'s front (ä, ö, y), use front. If everything is neutral (only e, i), default to front.',
+    commonMistakes: 'Mixing harmony in a single word — writing "metsassa" instead of "metsässä" — is the most common beginner error. Always check the base word\'s vowels first.',
+    analogy: 'Vowel harmony is like a dress code at a Finnish party. Back vowels are wearing black, front vowels are wearing white. You can\'t mix the two within one outfit (one word). The neutral vowels (e, i) are the ones who showed up in jeans and can hang with either group.',
+  },
+];
+
+async function seedIfEmpty() {
+  const vocab = await db.getAll('vocabulary');
+  if (vocab.length === 0) {
+    for (const w of SEED_VOCAB) {
+      await db.put('vocabulary', {
+        id: uid('v'),
+        ef: 2.5, interval: 0, reps: 0, nextReview: null, lastReview: null,
+        created: now(), updated: now(),
+        ...w,
+      });
+    }
+  }
+  const gram = await db.getAll('grammar');
+  if (gram.length === 0) {
+    for (const r of SEED_GRAMMAR) {
+      await db.put('grammar', {
+        id: uid('g'),
+        created: now(), updated: now(),
+        explanation_bn: '', tips: '', commonMistakes: '', analogy: '',
+        ...r,
+      });
+    }
+  }
+}
+
+/* ====================================================
+   Boot
+   ==================================================== */
+async function loadAllState() {
+  state.level = await getSetting('currentLevel', 'A2');
+  state.apiKey = await getSetting('apiKey', '');
+  state.apiProvider = await getSetting('apiProvider', 'anthropic');
+  state.studyDates = await getSetting('studyDates', []);
+  state.totalReviews = await getSetting('totalReviews', 0);
+  state.streak = computeStreak(state.studyDates);
+  state.vocabulary = await db.getAll('vocabulary');
+  state.grammar = await db.getAll('grammar');
+  state.sources = await db.getAll('sources');
+}
+
+async function boot() {
+  try {
+    await openDB();
+    await seedIfEmpty();
+    await loadAllState();
+    const initialRoute = (location.hash || '#dashboard').slice(1);
+    state.route = NAV.flatMap(g => g.items).some(i => i.id === initialRoute) ? initialRoute : 'dashboard';
+    renderLevelBar();
+    renderStreak();
+    renderNav();
+    await renderView();
+  } catch (err) {
+    console.error(err);
+    $('#view-root').innerHTML = `<div class="page"><div class="callout mistake"><div class="label">Boot error</div>${escapeHtml(err.message)}</div></div>`;
+  }
+}
+
+boot();
+
+</script>
+</body>
+</html>
